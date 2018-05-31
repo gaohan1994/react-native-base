@@ -442,9 +442,23 @@
   version "4.14.109"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.109.tgz#b1c4442239730bf35cabaf493c772b18c045886d"
 
-"@types/react-native@^0.55.16":
+"@types/react-native-tab-navigator@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/@types/react-native-tab-navigator/-/react-native-tab-navigator-0.3.1.tgz#39530d454d3be9191deb316124afcec436d38a3f"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
+"@types/react-native@*", "@types/react-native@^0.55.16":
   version "0.55.16"
   resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.55.16.tgz#992304c2228b276c10d2b4460d824477b25d0306"
+
+"@types/react-navigation@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@types/react-navigation/-/react-navigation-2.0.0.tgz#aa65f4600fae3f07bb4086704964dda9a31de997"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-test-renderer@^16.0.1":
   version "16.0.1"
@@ -2584,6 +2598,10 @@ image-size@^0.6.0:
   version "0.6.2"
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.6.2.tgz#8ee316d4298b028b965091b673d5f1537adee5b4"
 
+immutable@^3.8.1:
+  version "3.8.2"
+  resolved "https://registry.npmjs.org/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+
 import-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/import-local/-/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -4478,6 +4496,13 @@ react-native-safe-area-view@^0.8.0:
   resolved "https://registry.npmjs.org/react-native-safe-area-view/-/react-native-safe-area-view-0.8.0.tgz#22d78cb8e8658d04a10cd53c1546e0bc86cb7aea"
   dependencies:
     hoist-non-react-statics "^2.3.1"
+
+react-native-tab-navigator@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.npmjs.org/react-native-tab-navigator/-/react-native-tab-navigator-0.3.4.tgz#54a18f1ad06a09d4a0de81ff00416bc1b760c960"
+  dependencies:
+    immutable "^3.8.1"
+    prop-types "^15.5.10"
 
 react-native-tab-view@^0.0.77:
   version "0.0.77"

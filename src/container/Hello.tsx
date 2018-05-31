@@ -8,6 +8,7 @@ import {
 import HelloClass from '../class/hello';
 
 interface Props {}
+
 interface State {
     value: number;
 }
@@ -42,9 +43,8 @@ class Hello extends React.Component <Props, State> {
         const { value } = this.state;
 
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>Hello, Gaohan, {value} times</Text>
-
                 <View>
                     <Button
                         title="-"
@@ -66,5 +66,13 @@ class Hello extends React.Component <Props, State> {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F8F8F8',
+        position: 'relative'
+    },
+});
 
 export default Hello;
