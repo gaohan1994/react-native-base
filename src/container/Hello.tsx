@@ -4,8 +4,10 @@ import {
     StyleSheet,
     Text,
     View,
+    Platform
 } from 'react-native';
 import HelloClass from '../class/hello';
+import { getEnvironment } from '../store/index';
 
 interface Props {}
 
@@ -41,7 +43,6 @@ class Hello extends React.Component <Props, State> {
     render (): React.ReactNode {
 
         const { value } = this.state;
-
         return (
             <View style={styles.container}>
                 <Text>Hello, Gaohan, {value} times</Text>

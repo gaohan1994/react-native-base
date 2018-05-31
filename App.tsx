@@ -7,6 +7,9 @@ import {
   Text,
   View
 } from 'react-native';
+import { Provider } from 'react-redux';
+import store from './src/store';
+
 import { StackNavigator } from 'react-navigation';
 import RouteConfig from './src/route';
 import StackNavigatorConfig from './src/stackNavigatorConfig';
@@ -19,7 +22,9 @@ const Navigator = StackNavigator(RouteConfig, StackNavigatorConfig);
 class App extends Component <Props, State> {
   render() {
     return (
-      <Navigator/>
+      <Provider store={store()}>
+        <Navigator/>
+      </Provider>
     );
   }
 }

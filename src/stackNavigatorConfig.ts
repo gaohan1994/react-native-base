@@ -1,5 +1,5 @@
 /**
- * Created by HuangXiaoFeng on 2018-03-23.
+ * Created by Ghan on 2018-03-23.
  */
 
 // import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
@@ -8,8 +8,8 @@ import {
     NavigationStackViewConfig, 
     NavigationTransitionProps
 } from 'react-navigation';
-/*
 
+/*
      --- StackNavigator配置 ---
 
      initialRouteName - 导航器组件中初始显示页面的路由名称，如果不设置，则默认第一个路由页面为初始显示页面
@@ -48,11 +48,10 @@ const screenInterpolator = (sceneProps: NavigationTransitionProps) => {
 const NavigatorConfig: StackNavigatorConfig = {
     initialRouteName: 'MainTab',
     headerMode: 'float',
+    // transitionConfig: () => ({
+    //     /* screenInterpolator: screenInterpolator */
+    //     screenInterpolator: () => screenInterpolator()
+    // })
 };
-
-// transitionConfig: () => ({
-//     /* screenInterpolator: screenInterpolator */
-//     screenInterpolator: () => screenInterpolator()
-// })
 
 export default NavigatorConfig;

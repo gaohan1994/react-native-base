@@ -1,4 +1,4 @@
-import * as constants from '../constants/index';
+import * as constants from '../constants/hello';
 import { Dispatch } from 'redux';
 
 export interface Increment {

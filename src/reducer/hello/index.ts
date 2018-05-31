@@ -1,12 +1,12 @@
 import { 
     RECEIVE_DECREMENT,
     RECEIVE_INCREMENT
-} from '../../constants';
+} from '../../constants/hello';
 import { 
     IndexActions,
     increment,
     decrement
-} from '../../action/index';
+} from '../../action/hello';
 import { merge } from 'lodash';
 import { Store } from '../type';
 import { Hello } from './type';
@@ -20,7 +20,7 @@ export default function hello (state: Hello = initState, action: IndexActions): 
             state.value += 1;
             return merge({}, state, {});
 
-        case RECEIVE_INCREMENT:
+        case RECEIVE_DECREMENT:
             state.value -= 1;
             return merge({}, state, {});
         
