@@ -8,6 +8,8 @@ import {
   View
 } from 'react-native';
 
+import Hello from './src/component/Hello';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
     'Cmd+D or shake for dev menu',
@@ -18,10 +20,11 @@ const instructions = Platform.select({
 interface Props { }
 interface State { }
 
-export default class App extends Component<Props, State> {
+export default class App extends Component <Props, State> {
   render() {
     return (
       <View style={styles.container}>
+        <Hello/>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>

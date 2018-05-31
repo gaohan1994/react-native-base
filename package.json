@@ -7,8 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.109",
+    "lodash": "^4.17.10",
     "react": "16.3.1",
-    "react-native": "0.55.4"
+    "react-native": "0.55.4",
+    "react-navigation": "^2.0.4",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
