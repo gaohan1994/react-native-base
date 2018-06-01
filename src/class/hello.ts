@@ -4,6 +4,11 @@ class Hello extends Base {
 
     constructor () {
         super();
+        this.helloMethod = this.helloMethod.bind(this);
+    }
+
+    public helloMethod = (): void => {
+        this.baseMethod();
     }
 }
 

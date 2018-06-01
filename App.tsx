@@ -20,7 +20,7 @@ interface State { }
 const Navigator = StackNavigator(RouteConfig, StackNavigatorConfig);
 
 class App extends Component <Props, State> {
-  render() {
+  render (): React.ReactNode {
     return (
       <Provider store={store()}>
         <Navigator/>
