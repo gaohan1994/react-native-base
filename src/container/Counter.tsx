@@ -16,6 +16,7 @@ import {
 import { getValue } from '../reducer/hello';
 import { NavigationScreenProp } from 'react-navigation';
 import { merge } from 'lodash';
+import { getEnvironment } from '../store/index';
 
 interface Props {
     navigation  : NavigationScreenProp<{}>;
@@ -38,6 +39,7 @@ class Counter extends React.Component <Props, State> {
             increment,
             decrement,
         } = this.props;
+        
         return (
             <View>
                 <Text>Hello, Gaohan, {getValue} times</Text>

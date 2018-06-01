@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 export const getEnvironment = () => process.env.NODE_ENV;
 
 const configureStore = () => {
-
+    
     const store = process.env.NODE_ENV === 'production'
         ? createStore(
             rootReducer,
