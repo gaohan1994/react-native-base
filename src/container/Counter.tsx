@@ -8,7 +8,7 @@ import {
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Store } from '../reducer/type';
-import { 
+import {
     IndexActions,
     increment,
     decrement
@@ -16,7 +16,6 @@ import {
 import { getValue } from '../reducer/hello';
 import { NavigationScreenProp } from 'react-navigation';
 import { merge } from 'lodash';
-import { getEnvironment } from '../store/index';
 
 interface Props {
     navigation  : NavigationScreenProp<{}>;
@@ -34,11 +33,12 @@ class Counter extends React.Component <Props, State> {
     }
 
     render (): React.ReactNode {
+
         const { 
             getValue,
             increment,
             decrement,
-        } = this.props;
+        }: Props = this.props;
         
         return (
             <View>

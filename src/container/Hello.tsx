@@ -7,7 +7,6 @@ import {
     Platform
 } from 'react-native';
 import HelloClass from '../class/hello';
-import { getEnvironment } from '../store/index';
 
 interface Props {}
 
@@ -43,9 +42,15 @@ class Hello extends React.Component <Props, State> {
     render (): React.ReactNode {
 
         const { value } = this.state;
+        console.log('__DEV__', __DEV__);
         return (
             <View style={styles.container}>
                 <Text>Hello, Gaohan, {value} times</Text>
+                <Text>
+                    {__DEV__ === true
+                    ? 'dev'
+                    : 'pro'}
+                </Text>
                 <View>
                     <Button
                         title="-"
