@@ -45,7 +45,7 @@ function formatData(headers: Header, data: any) {
     }
 }
 
-const ajax = ({
+const request = ({
     url, 
     method = 'GET', 
     data, 
@@ -65,7 +65,7 @@ const ajax = ({
         headers: merge({
             'Content-Type': 'application/x-www-form-urlencoded', /* 默认格式 */
             'credentials': 'include', /* 包含cookie */
-            'mode': 'cors', /* 允许跨域 */
+            // 'mode': 'cors', /* 允许跨域 */
         }, headers)
     };
 
@@ -101,3 +101,5 @@ const ajax = ({
         }
     });
 };
+
+export default request;
