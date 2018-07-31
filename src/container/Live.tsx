@@ -4,24 +4,17 @@ import {
     Text,
     View,
 } from 'react-native';
-import HelloClass from '../class/hello';
 
-interface Props {}
+interface Props { }
 
-interface State {}
+interface State { }
 
-class List extends React.Component <Props, State> {
-
-    constructor (props: Props) {
-        super(props);
-        this.state = {};
-    }
+class Live extends React.Component <Props, State> {
 
     render (): React.ReactNode {
-
         return (
             <View style={styles.container}>
-                <Text>Hello, Gaohan times</Text>
+                <Text>Hello, Live Gaohan</Text>
             </View>
         );
     }
@@ -35,4 +28,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default List;
+export default Live;

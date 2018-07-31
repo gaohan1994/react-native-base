@@ -1,10 +1,16 @@
+/**
+ * created by Ghan 2018.7.31
+ * 首页
+ */
+
 import React from 'react';
 import {
     Button,
     StyleSheet,
     Text,
     View,
-    Platform
+    StatusBar,
+    // Platform
 } from 'react-native';
 import HelloClass from '../class/hello';
 

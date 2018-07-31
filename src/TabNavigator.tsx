@@ -6,14 +6,14 @@ import React from 'react';
 import {
     Image,
     StyleSheet,
-    View,
-    Text,
 } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import TabNavigator from 'react-native-tab-navigator';
 
-import Home from './container/Hello';
-import Counter from './container/Counter';
+import Home from './container/Home';
+import Video from './container/Video';
+import Live from './container/Live';
+import Mine from './container/Mine';
 
 interface Props {
     navigation: NavigationScreenProp<{}>;
@@ -37,7 +37,9 @@ class MianTab extends React.Component <Props, State> {
         return (
             <TabNavigator>
                 { this._renderTabarItems('首页', require('./../assets/images/i_home.png'), require('./../assets/images/i_home_foc.png'), Home) }
-                { this._renderTabarItems('计数', require('./../assets/images/i_video.png'), require('./../assets/images/i_video_foc.png'), Counter) }
+                { this._renderTabarItems('视频', require('./../assets/images/i_video.png'), require('./../assets/images/i_video_foc.png'), Video) }
+                { this._renderTabarItems('直播', require('./../assets/images/i_live.png'), require('./../assets/images/i_live_foc.png'), Live) }
+                { this._renderTabarItems('我的', require('./../assets/images/i_mine.png'), require('./../assets/images/i_mine_foc.png'), Mine) }
             </TabNavigator>
         );
     }
