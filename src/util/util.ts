@@ -1,3 +1,4 @@
+import { merge } from 'lodash';
 import { 
     Platform
 } from 'react-native';
@@ -8,3 +9,6 @@ import {
 export function isLT19() {
     return Platform.OS === 'android' && Platform.Version < 19;
 }
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    merge({}, ownProps, stateProps, dispatchProps);

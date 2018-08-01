@@ -15,7 +15,7 @@ import {
 } from '../action/hello';
 import { getValue } from '../reducer/hello';
 import { NavigationScreenProp } from 'react-navigation';
-import { merge } from 'lodash';
+import { mergeProps } from '../util/util';
 
 interface Props {
     navigation  : NavigationScreenProp<{}>;
@@ -74,8 +74,5 @@ export const mapDispatchToProps = (dispatch: Dispatch<IndexActions>) => ({
     increment: bindActionCreators(increment, dispatch),
     decrement: bindActionCreators(decrement, dispatch)
 });
-
-export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
-    merge({}, ownProps, stateProps, dispatchProps);
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Counter);

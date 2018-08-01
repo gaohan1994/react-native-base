@@ -7,7 +7,9 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
+    Alert,
 } from 'react-native';
+
 import Swiper from 'react-native-swiper';
 import { NavigationScreenProp } from 'react-navigation';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
@@ -66,7 +68,7 @@ class Home extends React.Component <Props, State> {
                     {/* 网易 Icon */}
                     <TouchableOpacity
                         activeOpacity={1}
-                        onPress={() => { alert('logo'); }}
+                        onPress={() => { Alert.alert('logo'); }}
                     >
                         <Image 
                             source={require('./../../assets/images/logo.png')} 
@@ -107,7 +109,7 @@ class Home extends React.Component <Props, State> {
                     {/* 24 Icon */}
                     <TouchableOpacity
                         activeOpacity={1}
-                        onPress={() => { alert('logo'); }}
+                        onPress={() => { Alert.alert('logo'); }}
                     >
                         <Image 
                             source={require('./../../assets/images/i_24h.png')} 

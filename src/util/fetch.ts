@@ -45,61 +45,77 @@ function formatData(headers: Header, data: any) {
     }
 }
 
-const request = ({
-    url, 
-    method = 'GET', 
-    data, 
-    dataType, 
-    headers, 
-    success, 
-    error, 
-    complete
-}: AjaxType) => {
+/**
+ * 发起一个api请求
+ * 
+ * CT.api('/me') // throw away the response
+ * CT.api('/me', function(r) { console.log(r) })
+ * CT.api('/me', 'post', function(r) { console.log(r) })
+ * CT.api('/me', { fields: 'email' }) // throw away the response
+ * CT.api(
+ *  '/me',
+ *  'post',
+ *  { body: 'hi there' },
+ *  function(r) {
+ *     console.log(r)
+ *  }
+ * )
+ * 
+ * @class CentermSDK
+ */
+const request = (
+    url: string, 
+    // method = 'GET', 
+    // data: any,
+    ...args: Array<any>
+) => {
+
+    const argByType: any = {};
+    args.forEach(arg => {
+        argByType[typeof arg] = arg;
+    });
+
+    const httpMethod = (argByType.string || 'get').toUpperCase();
+    const params = argByType.object || {};
+    const callback = argByType.function || emptyFunction;
 
     let options: RequestInit = {
 
         /* 默认method */
-        method: method || 'GET',
+        method: httpMethod,
 
         /* 默认headers */
-        headers: merge({
+        headers: {
             'Content-Type': 'application/x-www-form-urlencoded', /* 默认格式 */
             'credentials': 'include', /* 包含cookie */
-            // 'mode': 'cors', /* 允许跨域 */
-        }, headers)
+        }
     };
 
     /* 处理body */
     if (options.method) {
         if (options.method.toUpperCase() === 'POST') {
-            options.body = data
-            ? JSON.stringify(formatData(headers, data)) 
+            options.body = params
+            ? JSON.stringify(params) 
             : '';
         }
     }
 
     fetch(url, options)
-    .then((response: any) => !dataType || dataType === 'json' ? response.json() : response.text())
+    .then((response: any) => response.json())
     .then((responseJson: any) => {
-        // success && success(responseJson);
-        // complete && complete(responseJson);
-        if (success) {
-            success(responseJson);
-        }
 
-        if (complete) {
-            complete(responseJson);
+        console.log('---------------------- 响应报文 ----------------------');
+        console.log(responseJson);
+        console.log('---------------------- 报文结束 ----------------------');
+        if (callback) {
+            callback(responseJson);
         }
     }).catch((err: any) => {
-        
-        if (error) {
-            error(err);
-        }
-        
-        if (complete) {
-            complete();
-        }
+        throw new Error(err.message || '');
     });
 };
+
+const emptyFunction = () => {/* no empty */};
+
 
 export default request;
