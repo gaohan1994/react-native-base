@@ -1,3 +1,4 @@
 export type Home = {
-    newsList: any
+    newsList: any;
+    loading: boolean;
 };

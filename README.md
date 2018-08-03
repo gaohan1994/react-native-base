@@ -57,3 +57,5 @@ export function isLT19() {
 ##### `Swiper` ---> 使用 `react-native-swiper`
 
 ##### 使用 `react-native-scrollable-tab-view`
+
+##### `react-native` 不能使用http协议请求数据和资源了 全部用https

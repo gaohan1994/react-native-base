@@ -1,5 +1,6 @@
 import { 
-    RECEIVE_HOMENEWS_DATA
+    RECEIVE_HOMENEWS_DATA,
+    CHANGE_NEWSDATA_LOADING,
 } from '../../constants/home';
 import { 
     HomeActions,
@@ -20,14 +21,26 @@ export default function hello (state: Home = initState, action: HomeActions): Ho
 
             if (payload) {
                 const { requestCode, data = [] } = payload;
-                state.newsList[requestCode] = data;
+
+                if (state.newsList[requestCode] && state.newsList[requestCode].length > 0) {
+                    state.newsList[requestCode] = data[requestCode].concat(state.newsList[requestCode]);
+                } else {
+                    state.newsList[requestCode] = data[requestCode];
+                }
             }
            
             return merge({}, state, {});
 
+        case CHANGE_NEWSDATA_LOADING:
+            const { loading } = action;
+            state.loading = loading;
+            return merge({}, state, {});
+            
         default:
             return state;
     }
 }
 
 export const getNewsList = (store: Store) => store.home.newsList;
+
+export const getNewsLoading = (store: Store) => store.home.loading;
