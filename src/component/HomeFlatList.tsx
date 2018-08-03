@@ -9,13 +9,17 @@ import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
+    Image,
+    ImageBackground,
+    Dimensions,
+    TextStyle
 } from 'react-native';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Store } from '../reducer/type';
 import { NavigationScreenProp } from 'react-navigation';
 import { mergeProps } from '../util/util';
-import { common } from '../util/common';
+import { common, defaultTheme } from '../util/common';
 import { 
     fetchNewsData, 
     HomeActions,
@@ -25,6 +29,51 @@ import {
     getNewsList,
     getNewsLoading,
 } from '../reducer/home';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+export interface TextProps {
+    selected?: boolean;
+    size?: 'normal' | 'small';
+    style?: TextStyle;
+    children: any;
+}
+
+/**
+ * MyText 组件
+ * 
+ * text --- 渲染内容
+ * selected --- 是否是选中状态
+ * size --- 字体大小 normal: 14 small 12
+ * style --- 其他样式
+ * 
+ * @param param0 
+ */
+const MyText = ({
+    children,
+    selected = false,
+    size = 'normal',
+    style = {},
+    ...rest
+}: TextProps): JSX.Element => {
+    return (
+        <Text
+            {...rest}
+            style={[
+                styles.text,
+                style,
+                { 
+                    color: selected === true ? defaultTheme.selectedFontColor : defaultTheme.fontColor,
+                    fontSize: size === 'small' 
+                        ? defaultTheme.smallFont
+                        : defaultTheme.normalFont
+                }
+            ]}
+        >
+            {children}
+        </Text>
+    );
+};
 
 /**
  * tabLabel -- react-native-scrollable-tab-view 渲染标题需要的字段
@@ -37,7 +86,6 @@ import {
  * 
  * @interface Props
  */
-
 interface Props {
     tabLabel?: string;
     requestCode: string;
@@ -111,7 +159,7 @@ class HomeFlatList extends Component<Props, State> {
      * @memberof HomeFlatList
      */
     private _renderItem = ({ item }: any): JSX.Element => {
-        // console.log('item: ', item);
+        
         return (
             <FlatListItem 
                 item={item}
@@ -131,7 +179,11 @@ class HomeFlatList extends Component<Props, State> {
         const { flatHeight } = this.state;
         return (
             <View style={[common.center, {height: flatHeight}]}>
-
+                <Image 
+                    source={require('./../../assets/images/list_placeholder.png')} 
+                    resizeMode={'contain'}
+                    style={styles.emptyImage}
+                />
             </View>
         );
     }
@@ -212,7 +264,7 @@ class HomeFlatList extends Component<Props, State> {
     private onPressHandle = (id: string) => {
         this.setState((prevState) => {
             const selected = new Map(prevState.selected);
-            selected.set(id, !selected.get(id));
+            selected.set(id, true);
             return { selected };
         });
     }
@@ -236,13 +288,117 @@ interface ItemProps {
 class FlatListItem extends PureComponent<ItemProps, {}> {
     render () {
         const { item, selected } = this.props;
-        // console.log('item', item);
+        
+        /**
+         * 判断布局形式
+         * 
+         * isThreePic -- 三图布局
+         * 
+         * isVideo -- 视频布局
+         * 
+         * other -- 默认布局
+         */
+        const isThreePic = item.imgnewextra;
+
+        const isVideo = item.videoinfo;
+
+        if (isThreePic) {
+            return (
+                <TouchableOpacity 
+                    onPress={() => this.onPress()}
+                    style={[styles.item]}
+                >
+                    <View style={styles.picContainer}>
+                        <MyText selected={selected} >{item.title}</MyText>
+
+                        <View style={styles.picsBox}>
+                            <Image
+                                source={{uri: item.imgsrc}}
+                                style={[styles.itemImage, { width: screenWidth * 0.32 }]} 
+                            />
+                            {
+                                item.imgnewextra.map((img: {imgsrc: string}, index: number) => (
+                                    <Image
+                                        key={index}
+                                        resizeMode="cover"
+                                        source={{uri: img.imgsrc}}
+                                        style={[styles.itemImage, { width: screenWidth * 0.32 }]} 
+                                    />
+                                ))
+                            }
+                        </View>
+
+                        <View style={styles.textBox}>
+                            <View style={[styles.textContent, common.center]}>
+                                <MyText selected={true} size="small" >{item.source}</MyText>
+                                <MyText selected={true} size="small" >{item.replyCount}人跟帖</MyText>
+                            </View>
+                            <MyText selected={true} size="small" >x</MyText>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+
+        if (isVideo) {
+            return (
+                <TouchableOpacity 
+                    onPress={() => this.onPress()}
+                    style={[styles.item]}    
+                >
+                    <View style={styles.picContainer}>
+                        <MyText selected={selected} >{item.title}</MyText>
+
+                        <View style={styles.picsBox}>
+                            <ImageBackground
+                                source={{uri: item.imgsrc}}
+                                resizeMode="cover"
+                                style={[styles.videoImage, common.center]} 
+                            >
+                                <View style={[styles.videoControl, common.center]}>
+                                    <Image 
+                                        source={require('./../../assets/images/i_play.png')} 
+                                        resizeMode={'contain'}
+                                        style={styles.videoButton}    
+                                    />
+                                </View>
+                            </ImageBackground>
+                        </View>
+
+                        <View style={styles.textBox}>
+                            <View style={[styles.textContent, common.center]}>
+                                <MyText selected={true} size="small" >{item.source}</MyText>
+                                <MyText selected={true} size="small" >{item.replyCount}人跟帖</MyText>
+                            </View>
+                            <MyText selected={true} size="small" >x</MyText>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+
         return (
-            <TouchableOpacity onPress={this.onPress}>
-                <View>
-                    <Text style={styles.text}>{item.title}</Text>
-                    <Text style={{color: selected === true ? 'red' : 'black'}}>hello</Text>
+            <TouchableOpacity 
+                onPress={() => this.onPress()}
+                style={[styles.item, styles.defaultContainer]}    
+            >
+                <View
+                    style={[styles.picContainer, styles.defaultBox, { width: screenWidth * 0.6 }]}
+                >
+                    <MyText selected={selected} >{item.title}</MyText>
+                    <View style={styles.textBox}>
+                        <View style={[styles.textContent, common.center]}>
+                            <MyText selected={true} size="small" >{item.source}</MyText>
+                            <MyText selected={true} size="small" >{item.replyCount}人跟帖</MyText>
+                        </View>
+                        <MyText selected={true} size="small" >x</MyText>
+                    </View>
                 </View>
+                <Image
+                    resizeMode="cover"
+                    source={{uri: item.imgsrc}}
+                    style={[styles.itemImage, { width: screenWidth * 0.32 }]} 
+                />
             </TouchableOpacity>
         );
     }
@@ -262,10 +418,73 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
     },
 
-    text: {
-        color: '#000000',
-        fontSize: 17,
+    emptyImage: {
+        width: 60,
+        height: 60,
     },
+
+    item: {
+        backgroundColor: defaultTheme.defaultBackgroundColor,
+        borderBottomWidth: 1,
+        borderBottomColor: '#dddddd',
+        padding: 7,
+    },
+
+    defaultContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    picContainer: {
+        flexDirection: 'column',
+    },
+
+    picsBox: {
+        marginTop: 6,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    itemImage: {
+        height: 80,
+    },
+
+    textBox: {
+        marginTop: 6,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    textContent: {
+        flexDirection: 'row',
+    },
+
+    text: {
+        marginRight: 6,
+    },
+
+    videoImage: {
+        height: 180,
+        flex: 1,
+        marginVertical: 6,
+    },
+
+    videoControl: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+    },
+
+    videoButton: {
+        width: 18,
+        height: 18,
+        marginLeft: 3,
+    },
+
+    defaultBox: {
+        justifyContent: 'space-between',
+    }
 });
 
 const mapStateToProps = (state: Store) => ({

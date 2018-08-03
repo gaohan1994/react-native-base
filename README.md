@@ -44,6 +44,8 @@
  );
 ```
 
+> ##### 2.iOS9以上的版本苹果官方做了处理只允许https的资源，处理方法 https://blog.csdn.net/spicyboiledfish/article/details/80499338
+
 ##### ``react native``中，没有``z-index``的概念，把需要上层展示的组件放在靠后的代码中。
 
 #####  android API 是否小于 19(4.4以下)，如果是则不能使用沉浸状态栏
