@@ -14,12 +14,13 @@ import Swiper from 'react-native-swiper';
 import { NavigationScreenProp } from 'react-navigation';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import { isLT19 } from '../util/util';
+import Bar from '../component/Layout';
 import HomeFlatList from '../component/HomeFlatList';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 interface Props {
-    navigation: NavigationScreenProp<any, any>;   
+    navigation: NavigationScreenProp<any, any>;
 }
 
 interface State { }
@@ -53,16 +54,18 @@ class Home extends React.Component <Props, State> {
     ];
 
     render (): React.ReactNode {
-        // console.log('this.props', this.props);
+        
         return (
             <View style={styles.container}>
-                {/* 状态栏 */}
+
                 <StatusBar 
                     barStyle="light-content"
                     backgroundColor={'rgba(255, 255, 255, 0)'} 
                     translucent={true} 
+                    animated={true}
                 />
 
+                {/* <Bar /> */}
                 {/* 头部 */}
                 <View style={styles.headerContaier}>
                     {/* 网易 Icon */}

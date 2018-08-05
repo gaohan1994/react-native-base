@@ -28,15 +28,16 @@
 
 ##### 经验:
 
-##### ``react native``中，图片必须明确写明大小值，不然无法显示，同时``width : '100%''``, 这种写法不支持。如果需要自适应，有几种做法：
+``react native``中，图片必须明确写明大小值，不然无法显示，同时``width : '100%''``, 这种写法不支持。如果需要自适应，有几种做法：
 > ##### 1.只写高度值，不写宽度值，外层容器使用flex来做好布局，再配合resizeMode实现图片自适应即可。from ``https://github.com/hugohua/react-native-demo``
 
-```
+```javascript
 <View style={{flex : 1,borderRightWidth : 1,borderRightColor: '#eeeeee'}}>
      <Image style={{height: 110,resizeMode: Image.resizeMode.contain}} source={{uri: 'http://gtms01.alicdn.com/tps/i1/TB1nif8HpXXXXc6XVXXAyLxZVXX-320-188.jpg'}} />
 </View>
 ```
-```
+
+```javascript
  var Dimensions = require('Dimensions');
  var { width, height } = Dimensions.get('window');
  var image = (
@@ -46,18 +47,30 @@
 
 > ##### 2.iOS9以上的版本苹果官方做了处理只允许https的资源，处理方法 https://blog.csdn.net/spicyboiledfish/article/details/80499338
 
-##### ``react native``中，没有``z-index``的概念，把需要上层展示的组件放在靠后的代码中。
+``react native``中，没有``z-index``的概念，把需要上层展示的组件放在靠后的代码中。
 
-#####  android API 是否小于 19(4.4以下)，如果是则不能使用沉浸状态栏
+ android API 是否小于 19(4.4以下)，如果是则不能使用沉浸状态栏
 
-```
+```javascript
 export function isLT19() {
     return Platform.OS === 'android' && Platform.Version < 19;
 }
 ```
 
-##### `Swiper` ---> 使用 `react-native-swiper`
+`Swiper` ---> 使用 `react-native-swiper`
 
-##### 使用 `react-native-scrollable-tab-view`
+使用 `react-native-scrollable-tab-view`
 
-##### `react-native` 不能使用http协议请求数据和资源了 全部用https
+`react-native` 不能使用http协议请求数据和资源了 全部用https
+
+---
+
+使用 `statusBar` 可以自定义手机最上方的状态栏
+
+```javascript
+<StatusBar 
+  barStyle="light-content"
+  backgroundColor={'rgba(255, 255, 255, 0)'} 
+  translucent={true} 
+/>
+```

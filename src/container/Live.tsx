@@ -9,12 +9,12 @@ interface Props { }
 
 interface State { }
 
-class Live extends React.Component <Props, State> {
+class List extends React.Component <Props, State> {
 
     render (): React.ReactNode {
         return (
             <View style={styles.container}>
-                <Text>Hello, Live Gaohan</Text>
+                <Text>Hello, List Gaohan</Text>
             </View>
         );
     }
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Live;
+export default List;

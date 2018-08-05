@@ -4,13 +4,11 @@ import {
 } from '../../constants/home';
 import { 
     HomeActions,
-    fetchNewsData
 } from '../../action/Home';
 import { merge } from 'lodash';
 import { Store } from '../type';
 import { Home } from './type';
 import initState from './state';
-import { FetchNewsData } from '../../action/Home';
 
 export default function hello (state: Home = initState, action: HomeActions): Home {
 
@@ -35,7 +33,7 @@ export default function hello (state: Home = initState, action: HomeActions): Ho
             const { loading } = action;
             state.loading = loading;
             return merge({}, state, {});
-            
+
         default:
             return state;
     }
