@@ -10,5 +10,12 @@ export function isLT19() {
     return Platform.OS === 'android' && Platform.Version < 19;
 }
 
-export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
-    merge({}, ownProps, stateProps, dispatchProps);
+/**
+ * connect 需要用到的merge工具
+ * @param stateProps 
+ * @param dispatchProps 
+ * @param ownProps 
+ */
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object, ...rest: Array<any>) => {
+    return merge({}, ownProps, stateProps, dispatchProps, rest);
+};

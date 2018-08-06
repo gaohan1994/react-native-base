@@ -10,10 +10,12 @@ import {
     Dimensions,
     Image,
 } from 'react-native';
+
 import { NavigationScreenProp } from 'react-navigation';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import VideoFlatList from '../component/VideoFlatList';
 import { isLT19 } from '../util/util';
+import { DispatchType } from '../action/type';
 // import Bar from '../component/Layout';
 
 /**
@@ -23,6 +25,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 interface Props { 
     navigation: NavigationScreenProp<any, any>;
+    dispatch: DispatchType;
 }
 
 interface State { }
@@ -36,20 +39,21 @@ interface State { }
 class Video extends React.Component <Props, State> {
 
     tabArr = [
-        {columnName: '推荐', requestCode: 'home'},
-        {columnName: '搞笑', requestCode: 'home'},
-        {columnName: '影视', requestCode: 'home'},
-        {columnName: '音乐', requestCode: 'home'},
-        {columnName: '现场', requestCode: 'home'},
-        {columnName: '黑科技', requestCode: 'home'},
-        {columnName: '小品', requestCode: 'home'},
-        {columnName: '萌物', requestCode: 'home'},
-        {columnName: '猎奇', requestCode: 'home'},
-        {columnName: '军武', requestCode: 'home'},
-        {columnName: '涨姿势', requestCode: 'home'}
+        {columnName: '娱乐', requestCode: 'V9LG4CHOR'},
+        {columnName: '搞笑', requestCode: 'V9LG4E6VR'},
+        {columnName: '精品', requestCode: '00850FRB'},
+        // {columnName: '音乐', requestCode: 'home'},
+        // {columnName: '现场', requestCode: 'home'},
+        // {columnName: '黑科技', requestCode: 'home'},
+        // {columnName: '小品', requestCode: 'home'},
+        // {columnName: '萌物', requestCode: 'home'},
+        // {columnName: '猎奇', requestCode: 'home'},
+        // {columnName: '军武', requestCode: 'home'},
+        // {columnName: '涨姿势', requestCode: 'home'}
     ];
 
     render (): React.ReactNode {
+        console.log('video props', this.props);
         return (
             <View style={styles.container}>
                 {/* 状态栏 */}

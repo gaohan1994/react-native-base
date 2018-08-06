@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { HomeActions } from './home';
 import { VideoActions } from './video';
 
@@ -5,9 +6,18 @@ export type Action =
     | HomeActions
     | VideoActions;
 
-export type Dispatch = (
+/**
+ * 自定义 Dispatch
+ * 
+ * CustomDispatch -- 项目中用到的 Dispatch 
+ * 
+ * & Dispatch 与官方包的Dispatch结合 防止 typescript 出错
+ */
+export type CustomDispatch = (
     action: Action | ThunkAction | PromiseAction | Array<Action>
 ) => any;
+
+export type DispatchType = CustomDispatch & Dispatch;
 
 export type GetState = () => Object;
 

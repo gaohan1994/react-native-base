@@ -18,8 +18,8 @@ export default function video (state: Video = initState, action: VideoActions): 
             const { payload } = action;
 
             if (payload) {
-                const { requestCode, data = [] } = payload;
-
+                const { requestCode, data } = payload;
+                
                 if (state.video[requestCode] && state.video[requestCode].length > 0) {
                     state.video[requestCode] = data[requestCode].concat(state.video[requestCode]);
                 } else {

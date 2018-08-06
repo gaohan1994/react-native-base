@@ -12,7 +12,8 @@ import {
     Image,
     ImageBackground,
     Dimensions,
-    TextStyle
+    TextStyle,
+    Platform,
 } from 'react-native';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';

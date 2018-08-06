@@ -100,13 +100,25 @@ const request = (
         }
     }
 
+    console.log('---------------------- 请求报文 ----------------------');
+
+    console.log(url);
+    if (options.method === 'POST') {
+        console.log(options);
+    }
+    
+    console.log('---------------------- 报文结束 ----------------------');
+
     fetch(url, options)
     .then((response: any) => response.json())
     .then((responseJson: any) => {
 
         console.log('---------------------- 响应报文 ----------------------');
+
         console.log(responseJson);
+
         console.log('---------------------- 报文结束 ----------------------');
+        
         if (callback) {
             callback(responseJson);
         }
@@ -116,6 +128,5 @@ const request = (
 };
 
 const emptyFunction = () => {/* no empty */};
-
 
 export default request;

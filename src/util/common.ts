@@ -11,6 +11,11 @@ const defaultTheme = {
 };
 
 const common = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: defaultTheme.defaultBackgroundColor,
+    },
+    
     center: {
         justifyContent: 'center',
         alignItems: 'center',
