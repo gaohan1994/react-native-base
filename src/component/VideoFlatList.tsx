@@ -11,6 +11,7 @@ import {
     ImageBackground,
     Dimensions,
     TouchableOpacity,
+    TouchableHighlight,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationScreenProp } from 'react-navigation';
@@ -224,6 +225,10 @@ interface ItemProps {
     onPressItem: (item: any) => void;
 }
 
+interface ItemState {
+    vote: boolean;
+}
+
 /**
  * renderFlatList -- Item 纯组件
  * item -- 每项 ListItem 的数据
@@ -233,15 +238,37 @@ interface ItemProps {
  * @class FlatListItem
  * @extends {PureComponent<ItemProps, {}>}
  */
-class VideoListItem extends React.Component <ItemProps, {}> {
+class VideoListItem extends React.Component <ItemProps, ItemState> {
+
+    state = {
+        vote: false,
+    };
+
+    /**
+     * 点击点餐修改点赞状态
+     */
+    public toogleVote = () => {
+        this.setState({
+            vote: !this.state.vote
+        });
+    }
+
     render () {
-        const { 
-            item,
-            selected,
-         } = this.props;
+        const { vote } = this.state;
+        const {  item, selected, } = this.props;
+
+        /**
+         * 点赞 icon 根据state获取不同的icon地址
+         */
+        const voteImageSource = vote === true ? require('../../assets/images/i_vote_red.png') : require('../../assets/images/i_vote_black.png');
+
         return (
-            <TouchableOpacity onPress={() => this.onPressHandle()}>
+            <TouchableOpacity 
+                activeOpacity={0.7}
+                onPress={() => this.onPressHandle()}
+            >
                 <View style={styles.videoContainer}>
+                    {/* 主视频部分 */}
                     <ImageBackground
                         source={{uri: item.cover}}
                         resizeMode="cover"
@@ -249,6 +276,7 @@ class VideoListItem extends React.Component <ItemProps, {}> {
                     >
                         <View style={styles.videoTitle}>
                             <Text style={styles.titleText}>{item.title || ''}</Text>
+                            <Text style={styles.playCount}>{item.playCount}次播放</Text>
                         </View>
                         <View style={[styles.videoControl, common.center]}>
                             <Image
@@ -258,7 +286,33 @@ class VideoListItem extends React.Component <ItemProps, {}> {
                             />
                         </View>   
                     </ImageBackground>
-                    <Text style={{color: selected === true ? 'red' : 'black'}}>{item.title || 'text'}</Text>
+                    <View style={styles.detailBox}>
+
+                        {/* 专题部分 */}
+                        <TouchableHighlight>
+                            <View style={styles.topic}>
+                                <Text style={styles.topicText}>{item.topicName}</Text>
+                            </View>
+                        </TouchableHighlight>
+
+                        {/* 点赞 */}
+                        {
+                            item.votecount
+                            ? (
+                                <TouchableOpacity onPress={() => this.toogleVote()}>
+                                    <View style={styles.voteBox}>
+                                        <Text style={styles.voteCount}>{item.votecount || 0}</Text>
+                                        <Image 
+                                            source={voteImageSource} 
+                                            resizeMode="contain" 
+                                            style={styles.topicVote}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            ) : ''
+                        }
+                        
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -318,7 +372,44 @@ const styles = StyleSheet.create({
         width: 18,
         height: 18,
         marginLeft: 3,
-    }
+    },
+
+    playCount: {
+        color: '#ffffff',
+        marginTop: 5,
+    },
+
+    detailBox: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+
+    topic: {
+        padding: 5,
+        backgroundColor: '#f1f1f1',
+        borderRadius: 20,
+    },
+
+    topicText: {
+        color: defaultTheme.fontColor,
+        fontSize: 12,
+    },
+
+    voteBox: {
+        position: 'relative',
+    },
+
+    voteCount: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+    },
+
+    topicVote: {
+        width: 18,
+        height: 18,
+    },  
 });
 
 const mapStateToProps = (state: Store) => ({
