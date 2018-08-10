@@ -20,6 +20,7 @@ import { bindActionCreators } from 'redux';
 import { Store } from '../../reducer/index';
 import { NavigationScreenProp } from 'react-navigation';
 import { mergeProps } from '../../util/util';
+import { DispatchType } from '../../action/type';
 import { 
     saveSearchHistoryItem, 
     emptySearchHistoryItems, 
@@ -40,9 +41,10 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
  * @interface Props
  */
 interface Props {
+    dispatch: Dispatch & DispatchType;
     navigation: NavigationScreenProp<any, any>;
     saveSearchHistoryItem: (item: string | object) => void;
-    emptySearchHistorytems: () => void;
+    emptySearchHistoryItems: () => void;
 }
 
 interface State {
@@ -80,6 +82,8 @@ class Search extends React.Component <Props, State> {
         this.setState({
             value: value
         });
+
+        this.props.dispatch(emptySearchHistoryItems());
     }
 
     /**
@@ -95,6 +99,8 @@ class Search extends React.Component <Props, State> {
     render (): React.ReactNode {
 
         const { value } = this.state;
+
+        console.log(this.props);
 
         return (
             <View style={common.container}>
@@ -190,8 +196,9 @@ const mapStateToProps = (state: Store) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<SearchActions>) => ({
-    saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
-    emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
+    // saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
+    // emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
+    dispatch,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Search);

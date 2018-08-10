@@ -97,3 +97,51 @@ class MyTextInput extends TextInput {
     }
 }
 ```
+
+结合``redux``的两种方式
+
+1.父组件传递给子组件`dispatch`子组件在业务逻辑内使用，适用场景子组件是复用组件
+
+```javascript
+import { Dispatch } from 'redux';
+import { YourDispatch } from '../';
+
+/** 
+ * @param Dispatch redux的dispatch接口
+ * @param YourDispatch 你自己的dispatch接口
+*/
+interface Props {
+    dispatch: Dispatch & YourDispatch;
+}
+
+const mapStateToProps = (state: Store) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<ActionsName>) => ({
+    dispatch,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ComponentName);
+```
+
+2.直接组件内绑定`dispatch`
+
+```javascript
+
+interface Props {
+    saveSearchHistoryItem: () => void;
+    emptySearchHistoryItems: () => void;
+}
+
+const mapStateToProps = (state: Store) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<SearchActions>) => ({
+    saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
+    emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Search);
+```

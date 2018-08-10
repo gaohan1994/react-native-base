@@ -1,9 +1,11 @@
 import { Dispatch } from 'redux';
 import { HomeActions } from './Home';
 import { VideoActions } from './video';
+import { SearchActions } from './search';
 
 export type Action = 
     | HomeActions
+    | VideoActions
     | VideoActions;
 
 /**

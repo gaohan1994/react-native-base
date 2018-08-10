@@ -6,6 +6,7 @@ import search, { initState as SearchState, Search as SearchType } from './search
 export default combineReducers({
     home,
     video,
+    search,
 });
 
 export const initState = {

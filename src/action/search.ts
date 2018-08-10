@@ -24,7 +24,7 @@ export const saveSearchHistoryItem = (item: any) => (dispatch: Dispatch): void =
     });
 };
 
-export const emptySearchHistoryItems = (item: any) => (dispatch: Dispatch): void => {
+export const emptySearchHistoryItems = () => (dispatch: Dispatch): void => {
     dispatch({
         type: EMPTY_SEARCH_HISTORY
     });
