@@ -1,48 +1,29 @@
 import { merge } from 'lodash';
+import CentermRequestError from '../class/exception';
+import DialogUtil from '../class/dialogUtil';
 
-export interface AjaxType {
-    url     ?: string;
-    method  ?: string;
-    data    ?: any;
-    dataType?: string;
-    headers ?: any;
-    success ?: (data?: any) => void;
-    error   ?: (data?: any) => void;
-    complete?: (data?: any) => void;
+/**
+ * 回调函数类型
+ * 
+ * 接受类型 T 和数据类型是T的数据 arg 返回 void
+ * @interface GenericCallbackFn
+ */
+interface GenericCallbackFn {
+    <T>(arg: T): void;
 }
 
-export interface Header {
-    'Content-Type': string;
-    'credentials': string;
-    'mode': string;
+/**
+ *  回调函数类型
+ *
+ * @interface GenericCallbackT
+ * @template T
+ */
+interface GenericCallbackT<T> {
+    (arg: T): void;
 }
 
-function toForm (data: any) {
-    let formData = new FormData();
-    let keyArr = Object.keys(data);
-    if (keyArr.length < 1) { 
-        return {};
-    }
-    keyArr.map((item) => {
-        formData.append(item, data[item]);
-    });
-    return formData;
-}
-
-function toJsonStr(data: any) {
-    return JSON.stringify(data);
-}
-
-function formatData(headers: Header, data: any) {
-    if (!headers || !headers['Content-Type'] || headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-        return toForm(data);
-    }
-    switch (headers['Content-Type']) {
-        case 'application/json':
-            return toJsonStr(data);
-        default :
-            return toForm(data);
-    }
+interface RequsetError {
+    message?: string;
 }
 
 /**
@@ -64,20 +45,48 @@ function formatData(headers: Header, data: any) {
  * @class CentermSDK
  */
 const request = (
-    url: string, 
-    // method = 'GET', 
-    // data: any,
+    url: string,
     ...args: Array<any>
 ) => {
 
     const argByType: any = {};
+
+    const functions: Array<GenericCallbackFn> = [];
+
+    let callback: GenericCallbackFn;
+    
+    let errorCallback: GenericCallbackT<RequsetError> = defaultErrorCallback;
+
     args.forEach(arg => {
-        argByType[typeof arg] = arg;
+
+        if (typeof arg === 'function') {
+            /**
+             * 如果是 function push 到 functions 中
+             */
+
+            functions.push(arg);
+        } else {
+
+            argByType[typeof arg] = arg;
+        }
     });
 
+    /**
+     *  判断长度 第一个是 callback 第二个是 errorcallback
+     */
+
+    if (functions && functions.length > 0) {
+        if (functions.length === 1) {
+            callback = functions[0];
+        } else if (functions.length === 2) {
+            callback = functions[0];
+            errorCallback = functions[1];
+        }
+    }
+
     const httpMethod = (argByType.string || 'get').toUpperCase();
+    
     const params = argByType.object || {};
-    const callback = argByType.function || emptyFunction;
 
     let options: RequestInit = {
 
@@ -101,12 +110,10 @@ const request = (
     }
 
     console.log('---------------------- 请求报文 ----------------------');
-
     console.log(url);
     if (options.method === 'POST') {
         console.log(options);
     }
-    
     console.log('---------------------- 报文结束 ----------------------');
 
     fetch(url, options)
@@ -114,19 +121,37 @@ const request = (
     .then((responseJson: any) => {
 
         console.log('---------------------- 响应报文 ----------------------');
-
         console.log(responseJson);
-
         console.log('---------------------- 报文结束 ----------------------');
-        
-        if (callback) {
-            callback(responseJson);
+        try {
+            if (callback) {
+                callback(responseJson);
+            }
+        } catch (error) {
+            console.log('---------------------- 错误信息 ----------------------');
+            console.log(error);
+            console.log('---------------------- 信息结束 ----------------------');
+
+            errorCallback(error);
         }
     }).catch((err: any) => {
-        throw new Error(err.message || '');
+        errorCallback(err);
     });
 };
 
-const emptyFunction = () => {/* no empty */};
+/**
+ * 默认错误处理函数
+ * @param error RequsetError
+ */
+const defaultErrorCallback: GenericCallbackT<RequsetError> = (error) => {
+
+    console.log('---------------------- 错误信息 ----------------------');
+    console.log(error.message || '请求错误');
+    console.log('---------------------- 信息结束 ----------------------');
+
+    DialogUtil.showToast(error.message || '请求错误');
+
+    throw new Error(error.message || '请求错误');
+};
 
 export default request;

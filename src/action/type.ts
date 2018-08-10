@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { HomeActions } from './home';
+import { HomeActions } from './Home';
 import { VideoActions } from './video';
 
 export type Action = 

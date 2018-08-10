@@ -74,3 +74,26 @@ export function isLT19() {
   translucent={true} 
 />
 ```
+
+使用 ``TextInput`` 处理输入框。
+
+出现了无法输入中文的问题，解决方案：
+
+```javascript
+class MyTextInput extends TextInput {
+
+    shouldComponentUpdate (nextProps: any) {
+        return Platform.OS !== 'ios'
+            || (this.props.value === nextProps.value && (nextProps.defaultValue === undefined || nextProps.defaultValue === '' ))
+            || (this.props.defaultValue === nextProps.defaultValue && (nextProps.value === undefined || nextProps.value === '' ));
+    }
+
+    render() {
+        return (
+            <TextInput
+                {...this.props}
+            />
+        );
+    }
+}
+```

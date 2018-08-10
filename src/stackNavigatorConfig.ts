@@ -45,9 +45,13 @@ const screenInterpolator = (sceneProps: NavigationTransitionProps) => {
     // return CardStackStyleInterpolator[transition](sceneProps);
 };
 
+/**
+ * 期望渐变 但是首页的header都是自己写的所以没办法用这里的配置
+ */
 const NavigatorConfig: StackNavigatorConfig = {
     initialRouteName: 'MainTab',
     headerMode: 'float',
+    headerTransitionPreset: 'fade-in-place',
     // transitionConfig: () => ({
     //     /* screenInterpolator: screenInterpolator */
     //     screenInterpolator: () => screenInterpolator()

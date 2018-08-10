@@ -4,8 +4,8 @@ import {
 } from '../constants/video';
 import { Dispatch } from 'redux';
 import request from '../util/fetch';
-
 import { ThunkAction } from './type';
+import Dialog from '../class/dialogUtil';
 
 export interface FetchVideoData {
     type: RECEIVE_VIDEO_DATA;
@@ -28,26 +28,24 @@ export type VideoActions = FetchVideoData | ChangeVideoLoading;
  * @param {Dispatch} dispatch
  */
 export const fetchVideoData = (requestCode: string, page: number): ThunkAction => (dispatch: Dispatch) => {
-    try {
-        dispatch({ type: CHANGE_VIDEO_LOADING, loading: true });
+    dispatch({ type: CHANGE_VIDEO_LOADING, loading: true });
 
-        request(
-            `http://c.3g.163.com/nc/video/list/${requestCode}/n/${page}-10.html`,
-            (data: any) => {
-                dispatch({ type: CHANGE_VIDEO_LOADING, loading: false });
+    request(
+        `http://c.3g.163.com/nc/video/list/${requestCode}/n/${page}-10.html`,
+        (data: any) => {
+            Dialog.showToast('为您发现了10条新数据~', { position: 68 });
 
-                dispatch({ 
-                    type: RECEIVE_VIDEO_DATA, 
-                    payload: {
-                        requestCode,
-                        data,
-                    }
-                });
-            }
-        );
-    } catch (err) {
-        throw new Error(err.message || '');
-    }
+            dispatch({ type: CHANGE_VIDEO_LOADING, loading: false });
+
+            dispatch({ 
+                type: RECEIVE_VIDEO_DATA, 
+                payload: {
+                    requestCode,
+                    data,
+                }
+            });
+        }
+    );
 };
 
 export const changeVideoDataLoading = (loading: boolean) => (dispatch: Dispatch) => {

@@ -14,7 +14,6 @@ import Swiper from 'react-native-swiper';
 import { NavigationScreenProp } from 'react-navigation';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import { isLT19 } from '../util/util';
-import Bar from '../component/Layout';
 import HomeFlatList from '../component/HomeFlatList';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -55,6 +54,8 @@ class Home extends React.Component <Props, State> {
 
     render (): React.ReactNode {
         
+        const { navigation } = this.props;
+
         return (
             <View style={styles.container}>
 
@@ -65,7 +66,6 @@ class Home extends React.Component <Props, State> {
                     animated={true}
                 />
 
-                {/* <Bar /> */}
                 {/* 头部 */}
                 <View style={styles.headerContaier}>
                     {/* 网易 Icon */}
@@ -95,8 +95,9 @@ class Home extends React.Component <Props, State> {
                                             key={index}
                                             activeOpacity={1}
                                             style={styles.swiperItem}
+                                            onPress={() => {navigation.push('NewsSearch', { keyword: item }); }}
                                         >
-                                            <Image 
+                                            <Image
                                                 source={require('./../../assets/images/i_search.png')} 
                                                 resizeMode={'contain'} 
                                                 style={styles.headerSearchImg}
@@ -166,7 +167,7 @@ class Home extends React.Component <Props, State> {
     }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F8F8F8',

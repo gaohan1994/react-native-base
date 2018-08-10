@@ -1,14 +1,22 @@
 import { 
     RECEIVE_VIDEO_DATA,
     CHANGE_VIDEO_LOADING
-} from '../../constants/video';
+} from '../constants/video';
 import { 
     VideoActions,
-} from '../../action/video';
+} from '../action/video';
 import { merge } from 'lodash';
-import { Store } from '../type';
-import { Video } from './type';
-import initState from './state';
+import { Store } from './index';
+
+export const initState = {
+    video: {},
+    loading: false,
+};
+
+export type Video = {
+    video: any;
+    loading: boolean;
+};
 
 export default function video (state: Video = initState, action: VideoActions): Video {
 

@@ -22,7 +22,7 @@ import { getVideo, getVideoLoading } from '../reducer/video';
  * common 
  */
 import { defaultTheme, common } from '../util/common';
-import { Store } from '../reducer/type';
+import { Store } from '../reducer/index';
 import { mergeProps } from '../util/util';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -301,12 +301,20 @@ class VideoListItem extends React.Component <ItemProps, ItemState> {
                             ? (
                                 <TouchableOpacity onPress={() => this.toogleVote()}>
                                     <View style={styles.voteBox}>
-                                        <Text style={styles.voteCount}>{item.votecount || 0}</Text>
                                         <Image 
                                             source={voteImageSource} 
                                             resizeMode="contain" 
                                             style={styles.topicVote}
                                         />
+                                        <Text style={[styles.voteCount, { color: vote === true ? 'red' : defaultTheme.fontColor }]}>
+                                            {
+                                                item.votecount 
+                                                ? vote === true
+                                                    ? item.votecount + 1
+                                                    : item.votecount
+                                                : 0
+                                            }
+                                        </Text>
                                     </View>
                                 </TouchableOpacity>
                             ) : ''
@@ -382,6 +390,7 @@ const styles = StyleSheet.create({
     detailBox: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 10,
     },
 
@@ -398,12 +407,16 @@ const styles = StyleSheet.create({
 
     voteBox: {
         position: 'relative',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
     },
 
     voteCount: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
+        // position: 'absolute',
+        // top: 0,
+        // right: 0,
+        fontSize: 12
     },
 
     topicVote: {

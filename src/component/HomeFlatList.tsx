@@ -17,8 +17,8 @@ import {
 } from 'react-native';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Store } from '../reducer/type';
 import { NavigationScreenProp } from 'react-navigation';
+import { Store } from '../reducer/index';
 import { mergeProps } from '../util/util';
 import { common, defaultTheme } from '../util/common';
 import { 

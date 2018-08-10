@@ -1,14 +1,22 @@
 import { 
     RECEIVE_HOMENEWS_DATA,
     CHANGE_NEWSDATA_LOADING,
-} from '../../constants/home';
+} from '../constants/home';
 import { 
     HomeActions,
-} from '../../action/Home';
+} from '../action/Home';
 import { merge } from 'lodash';
-import { Store } from '../type';
-import { Home } from './type';
-import initState from './state';
+import { Store } from './index';
+
+export const initState = {
+    newsList: {},
+    loading: false,
+};
+
+export type Home = {
+    newsList: any;
+    loading: boolean;
+};
 
 export default function hello (state: Home = initState, action: HomeActions): Home {
 
