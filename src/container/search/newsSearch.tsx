@@ -20,6 +20,11 @@ import { bindActionCreators } from 'redux';
 import { Store } from '../../reducer/index';
 import { NavigationScreenProp } from 'react-navigation';
 import { mergeProps } from '../../util/util';
+import { 
+    saveSearchHistoryItem, 
+    emptySearchHistoryItems, 
+    SearchActions 
+} from '../../action/search';
 
 import { styles as HomeStyles } from '../Home';
 import { common, defaultTheme } from '../../util/common';
@@ -27,8 +32,17 @@ import TextInput from '../../component/MyTextInput';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
+/**
+ * @param navigation 导航器
+ * @param saveSearchHistoryItem 增加搜索历史条目
+ * @param emptySearchHistoryItems 清空搜索历史
+ * 
+ * @interface Props
+ */
 interface Props {
     navigation: NavigationScreenProp<any, any>;
+    saveSearchHistoryItem: (item: string | object) => void;
+    emptySearchHistorytems: () => void;
 }
 
 interface State {
@@ -57,12 +71,22 @@ class Search extends React.Component <Props, State> {
         };
     }
 
+    /**
+     * 输入事件监听
+     *
+     * @memberof Search
+     */
     public onChangeValue = (value: string): void => {
         this.setState({
             value: value
         });
     }
 
+    /**
+     * 点击取消
+     *
+     * @memberof Search
+     */
     public onPressHandle = (): void => {
         const { navigation } = this.props;
         navigation.goBack();
@@ -165,8 +189,9 @@ const mapStateToProps = (state: Store) => ({
 
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-
+const mapDispatchToProps = (dispatch: Dispatch<SearchActions>) => ({
+    saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
+    emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Search);

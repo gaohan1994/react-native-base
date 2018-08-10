@@ -13,7 +13,7 @@ export type EmptySearchHistoryItems = {
     type: EMPTY_SEARCH_HISTORY;
 };
 
-export type StatusActions = SaveSearchHistoryItem | EmptySearchHistoryItems;
+export type SearchActions = SaveSearchHistoryItem | EmptySearchHistoryItems;
 
 export const saveSearchHistoryItem = (item: any) => (dispatch: Dispatch): void => {
     dispatch({
