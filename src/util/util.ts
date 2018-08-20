@@ -11,6 +11,18 @@ export function isLT19() {
 }
 
 /**
+ * 判断传入参数是否是数组
+ * @param value 
+ */
+export const isArrayFn = (value: any): boolean => {
+    if (typeof Array.isArray === 'function') {
+        return Array.isArray(value);
+    } else {
+        return Object.prototype.toString.call(value) === '[object Array]';
+    }
+};  
+
+/**
  * connect 需要用到的merge工具
  * @param stateProps 
  * @param dispatchProps 

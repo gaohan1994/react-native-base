@@ -14,6 +14,7 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,9 +25,9 @@ import { DispatchType } from '../../action/type';
 import { 
     saveSearchHistoryItem, 
     emptySearchHistoryItems, 
-    SearchActions 
+    SearchActions
 } from '../../action/search';
-
+import { getHistory, HistoryType, HistoryItem } from '../../reducer/search';
 import { styles as HomeStyles } from '../Home';
 import { common, defaultTheme } from '../../util/common';
 import TextInput from '../../component/MyTextInput';
@@ -45,6 +46,7 @@ interface Props {
     navigation: NavigationScreenProp<any, any>;
     saveSearchHistoryItem: (item: string | object) => void;
     emptySearchHistoryItems: () => void;
+    history: HistoryType;
 }
 
 interface State {
@@ -73,6 +75,10 @@ class Search extends React.Component <Props, State> {
         };
     }
 
+    componentDidMount() {
+        //
+    }
+
     /**
      * 输入事件监听
      *
@@ -82,8 +88,6 @@ class Search extends React.Component <Props, State> {
         this.setState({
             value: value
         });
-
-        this.props.dispatch(emptySearchHistoryItems());
     }
 
     /**
@@ -96,11 +100,33 @@ class Search extends React.Component <Props, State> {
         navigation.goBack();
     }
 
+    /**
+     * 清空搜索历史
+     *
+     * @memberof Search
+     */
+    public onEmptyHistoryHandle = (): void => {
+        this.props.emptySearchHistoryItems();
+    }
+
+    /**
+     * 点击热门搜索
+     *
+     * @param item { keyword: string }
+     * 
+     * @memberof Search
+     */
+    public doSearchHandle = (item: HistoryItem): void => {
+        const { saveSearchHistoryItem } = this.props;
+        saveSearchHistoryItem(item);
+    }
+
     render (): React.ReactNode {
 
         const { value } = this.state;
 
-        console.log(this.props);
+        const { history } = this.props;
+        console.log('history: ', history);
 
         return (
             <View style={common.container}>
@@ -110,6 +136,7 @@ class Search extends React.Component <Props, State> {
                     animated={true}
                 />
 
+                {/* 搜索输入框 */}
                 <View style={[HomeStyles.headerContaier, { backgroundColor: defaultTheme.defaultBackgroundColor }]}>
 
                     <View style={styles.inputBox}>        
@@ -137,19 +164,119 @@ class Search extends React.Component <Props, State> {
                         <View style={styles.cancel}>
                             <Text style={styles.cancelText}>取消</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>            
                     
                 </View>
 
-                <ScrollView 
+                {/* 主部分 */}
+                <ScrollView
                     style={styles.scrollView}
                     // 滑动时是否隐藏软键盘
                     keyboardDismissMode="on-drag"
                 >
-                    <Text>textt</Text>
+                    
+                    {/* 搜索历史 header */}
+                    {
+                        history && history.length > 0
+                        ? (
+                            <View style={styles.historyBox}>
+                                <Text style={{ color: defaultTheme.selectedFontColor }}>搜索历史</Text>
+                                
+                                <TouchableOpacity
+                                    activeOpacity={.3}
+                                    onPress={() => this.onEmptyHistoryHandle()}
+                                >
+                                    <Icon
+                                        size={20}
+                                        color="gray"
+                                        name="trash"
+                                    />    
+                                </TouchableOpacity>
+                            </View>
+                        ) : null
+                    }
+                    
+                    {/* 搜索历史条目 */}
+                    {
+                        history && history.length > 0
+                        ? (
+                            <View style={[
+                                styles.historyBox, 
+                                { flex: 1, flexWrap: 'wrap', justifyContent: 'flex-start', borderBottomWidth: 0 }
+                            ]}>
+                                {
+                                    history.map((item: HistoryItem, i: number) => {
+                                        return (
+                                            <TouchableOpacity 
+                                                activeOpacity={0.3} 
+                                                key={i}
+                                            >
+                                                <View style={styles.historyItem}>
+                                                    <Text style={{lineHeight: 36}}>{item.keyword}</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        );
+                                    })
+                                }
+                            </View>
+                        ) : null
+                    }
+
+                    {/* 热门搜索 */}
+                    <View style={[styles.historyBox, { marginTop: 10 }]}>
+                        <Text style={{ color: defaultTheme.selectedFontColor }}>热门搜索</Text>
+                    </View>
+                    
+                    {/* 热门条目 */}
+                    {
+                        hotList.map((item: HistoryItem, index: number) => {
+                            return (
+                                <TouchableOpacity
+                                    activeOpacity={0.3} 
+                                    key={index}
+                                    onPress={() => this.doSearchHandle(item)}
+                                >
+                                    <View style={[
+                                        styles.historyItem,
+                                        styles.hotItem,
+                                        { width: screenWidth - 20, borderLeftWidth: 0 }
+                                    ]}>
+                                        <Text style={{ color: this.getColor(index), marginRight: 6 }}>{index + 1}.</Text>
+                                        <Text style={{lineHeight: 36}}>{item.keyword}</Text>
+
+                                        {
+                                            index === 0
+                                            ? (
+                                                <Image style={styles.hotIcon} source={require('./../../../assets/images/i_hot.png')} resizeMode="contain" />
+                                            ) : null
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                            );
+                        })
+                    }
                 </ScrollView>
             </View>
         );
+    }
+
+    /**
+     * 获得热门搜索排名颜色
+     * 
+     * @private
+     * @memberof Search
+     */
+    private getColor  = (index: number) => {
+        switch (index) {
+            case 0:
+                return '#CC0000';
+            case 1:
+                return '#FF6600';
+            case 2:
+                return '#ffCC66';
+            default:
+                return '#bfbfbf';
+        }
     }
 }
 
@@ -186,19 +313,53 @@ const styles = StyleSheet.create({
 
     scrollView: {
         flex: 1,
+        paddingTop: 30,
         paddingLeft: 10,
         paddingRight: 10,
+        paddingBottom: 50,
+    },
+
+    historyBox: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingBottom: 6,
+        borderBottomWidth: 1,
+        borderBottomColor: defaultTheme.borderColor,
+    },
+
+    historyItem: {
+        paddingLeft: 6,
+        paddingRight: 6,
+        height: 36,
+        width: (screenWidth - 22) / 2,
+        borderTopColor: defaultTheme.borderColor,
+        borderLeftColor: defaultTheme.borderColor,
+        borderBottomColor: defaultTheme.borderColor,
+        borderLeftWidth: 1,
+        borderBottomWidth: 1,
+    },
+
+    hotItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    hotIcon: {
+        width: 15,
+        height: 15,
+        marginLeft: 5,
     }
 });
 
 const mapStateToProps = (state: Store) => ({
-
+    history: getHistory(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<SearchActions>) => ({
-    // saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
-    // emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
     dispatch,
+    saveSearchHistoryItem: bindActionCreators(saveSearchHistoryItem, dispatch),
+    emptySearchHistoryItems: bindActionCreators(emptySearchHistoryItems, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Search);
