@@ -3,6 +3,7 @@
  */
 import MainTab from './TabNavigator';
 import NewsSearch from './container/search/newsSearch';
+import NewsDetail from './container/NewsDetail';
 
 /**
  * 路由配置
@@ -52,6 +53,14 @@ const RouteConfig = {
             gesturesEnabled: true
         }),
     },
+
+    NewsDetail: {
+        screen: NewsDetail,
+        navigationOptions: () => ({
+            header: null,
+            gesturesEnabled: true
+        }),
+    }
 };
 
 export default RouteConfig;

@@ -31,6 +31,7 @@ import { getHistory, HistoryType, HistoryItem } from '../../reducer/search';
 import { styles as HomeStyles } from '../Home';
 import { common, defaultTheme } from '../../util/common';
 import TextInput from '../../component/MyTextInput';
+import Dialog from '../../class/dialogUtil';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -118,16 +119,23 @@ class Search extends React.Component <Props, State> {
      */
     public doSearchHandle = (item: HistoryItem): void => {
         const { saveSearchHistoryItem } = this.props;
+
         saveSearchHistoryItem(item);
     }
 
-    render (): React.ReactNode {
+    public doInputSearchHandle = (text: string): void => {
+        const historyItem = {
+            keyword: text
+        };
 
+        const { saveSearchHistoryItem } = this.props;
+        saveSearchHistoryItem(historyItem);
+    }
+
+    render (): React.ReactNode {
         const { value } = this.state;
 
         const { history } = this.props;
-        console.log('history: ', history);
-
         return (
             <View style={common.container}>
                 <StatusBar 
@@ -157,6 +165,7 @@ class Search extends React.Component <Props, State> {
                             clearButtonMode="while-editing"
                             // 去掉安卓底边框
                             underlineColorAndroid="transparent"
+                            onSubmitEditing={(event: any) => this.doInputSearchHandle(event.nativeEvent.text)}
                         />
                     </View>
 

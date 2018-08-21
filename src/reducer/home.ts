@@ -1,6 +1,7 @@
 import { 
     RECEIVE_HOMENEWS_DATA,
     CHANGE_NEWSDATA_LOADING,
+    RECEIVE_NEWS_DETAIL,
 } from '../constants/home';
 import { 
     HomeActions,
@@ -11,11 +12,13 @@ import { Store } from './index';
 export const initState = {
     newsList: {},
     loading: false,
+    htmlviews: {},
 };
 
 export type Home = {
     newsList: any;
     loading: boolean;
+    htmlviews: any;
 };
 
 export default function hello (state: Home = initState, action: HomeActions): Home {
@@ -42,6 +45,17 @@ export default function hello (state: Home = initState, action: HomeActions): Ho
             state.loading = loading;
             return merge({}, state, {});
 
+        case RECEIVE_NEWS_DETAIL:
+            const { newsDetail } = action;
+
+            if (newsDetail) {
+                const { data, item } = newsDetail;
+
+                state.htmlviews[item.docid] = data[item.docid];
+            }
+
+            return merge({}, state, {});
+
         default:
             return state;
     }
@@ -50,3 +64,5 @@ export default function hello (state: Home = initState, action: HomeActions): Ho
 export const getNewsList = (store: Store) => store.home.newsList;
 
 export const getNewsLoading = (store: Store) => store.home.loading;
+
+export const getHTMLViews = (store: Store) => store.home.htmlviews;

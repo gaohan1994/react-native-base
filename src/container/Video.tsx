@@ -9,6 +9,7 @@ import {
     StatusBar,
     Dimensions,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 
 import { NavigationScreenProp } from 'react-navigation';
@@ -53,7 +54,8 @@ class Video extends React.Component <Props, State> {
     ];
 
     render (): React.ReactNode {
-        console.log('video props', this.props);
+        const { navigation } = this.props;
+        console.log('navigation: ', navigation);
         return (
             <View style={styles.container}>
                 {/* 状态栏 */}
@@ -68,9 +70,17 @@ class Video extends React.Component <Props, State> {
                 <View style={styles.container}>
 
                     {/* 固定标签 */}
-                    <View style={styles.columnSelect}>
+                    <TouchableOpacity
+                        activeOpacity={0.3}
+                        onPress={() => { navigation.push('NewsSearch'); }}
+                        style={styles.columnSelect}
+                    >
                         <Image source={require('./../../assets/images/i_search_grey.png')} style={{width: 16, height: 16}} />
-                    </View>
+                    </TouchableOpacity>
+
+                    {/* <View style={styles.columnSelect}>
+                        <Image source={require('./../../assets/images/i_search_grey.png')} style={{width: 16, height: 16}} />
+                    </View> */}
 
                     <ScrollableTabView
                         renderTabBar={() => (

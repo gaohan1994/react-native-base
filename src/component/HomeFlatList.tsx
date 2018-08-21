@@ -262,12 +262,27 @@ class HomeFlatList extends Component<Props, State> {
      * @private
      * @memberof HomeFlatList
      */
-    private onPressHandle = (id: string) => {
+    private onPressHandle = (item: any) => {
+
+        const { navigation } = this.props;
+
+        // 先把点击的条目加入已点击
         this.setState((prevState) => {
             const selected = new Map(prevState.selected);
-            selected.set(id, true);
+            selected.set(item.id, true);
             return { selected };
         });
+
+        if (item.videoinfo) {
+            console.log('video');
+        } else {
+            console.log('normal');
+            
+            if (navigation) {
+
+                navigation.push('NewsDetail', { item });
+            }
+        }
     }
 }
 
@@ -306,6 +321,7 @@ class FlatListItem extends PureComponent<ItemProps, {}> {
         if (isThreePic) {
             return (
                 <TouchableOpacity 
+                    activeOpacity={0.3}
                     onPress={() => this.onPress()}
                     style={[styles.item]}
                 >
@@ -344,6 +360,7 @@ class FlatListItem extends PureComponent<ItemProps, {}> {
         if (isVideo) {
             return (
                 <TouchableOpacity 
+                    activeOpacity={0.3}
                     onPress={() => this.onPress()}
                     style={[styles.item]}    
                 >
@@ -380,6 +397,7 @@ class FlatListItem extends PureComponent<ItemProps, {}> {
 
         return (
             <TouchableOpacity 
+                activeOpacity={0.3}
                 onPress={() => this.onPress()}
                 style={[styles.item, styles.defaultContainer]}    
             >
@@ -408,7 +426,7 @@ class FlatListItem extends PureComponent<ItemProps, {}> {
         const { item, onPressItem } = this.props;
 
         if (onPressItem) {
-            onPressItem(item.id);
+            onPressItem(item);
         }
     }
 }

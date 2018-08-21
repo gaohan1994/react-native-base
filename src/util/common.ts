@@ -1,6 +1,10 @@
 import { 
     StyleSheet,
+    Image,
+    Dimensions,
 } from 'react-native';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const defaultTheme = {
     defaultBackgroundColor: '#f8f8f8',
@@ -34,7 +38,34 @@ const common = StyleSheet.create({
     }
 });
 
+const getImageHeight = (imageUrl: string): number => {
+
+    /**
+     * default height
+     */
+    let imgHeight = 230;
+
+    Image.getSize(
+        imageUrl, 
+        (width, height) => {
+            console.log('screenWidth: ', screenWidth);
+            console.log('width: ', width);
+            console.log('height: ', height);
+            // imgHeight = Math.floor(screenWidth / width * height);
+            imgHeight = Math.floor(screenWidth * height / width);
+        },
+        (error) => {
+            console.log('error getimagesize ', error);
+        }
+    );
+
+    console.log('imgHeight: ', imgHeight);
+
+    return imgHeight;
+};
+
 export {
     common,
     defaultTheme,
+    getImageHeight,
 };
