@@ -13,6 +13,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
+    findNodeHandle,
+    Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
@@ -69,6 +71,20 @@ const hotList = [
 
 class Search extends React.Component <Props, State> {
 
+    private timer: any;
+
+    private scrollRef: any;
+
+    private textInput0: any;
+
+    private textInput1: any;
+
+    private textInput2: any;
+
+    private textInput3: any;
+
+    private textInput4: any;
+    
     constructor (props: Props) {
         super(props);
         this.state = {
@@ -123,6 +139,11 @@ class Search extends React.Component <Props, State> {
         saveSearchHistoryItem(item);
     }
 
+    /**
+     * 用户输入信息搜索
+     *
+     * @memberof Search
+     */
     public doInputSearchHandle = (text: string): void => {
         const historyItem = {
             keyword: text
@@ -130,6 +151,32 @@ class Search extends React.Component <Props, State> {
 
         const { saveSearchHistoryItem } = this.props;
         saveSearchHistoryItem(historyItem);
+    }
+
+    /**
+     * @param refName 点击的 textinput ref
+     *
+     * @memberof Search
+     */
+    public onFocusHandle = (refName: any) => {
+        console.log('refName: ', refName);
+        // 如果是 ios 处理一下
+        if (Platform.OS === 'ios') {
+            if (this.timer) {
+                console.log('timer ex');
+                clearTimeout(this.timer);
+            } 
+
+            this.timer = setTimeout(() => {
+                console.log('this[refName]: ', this[refName]);
+                const scrollResponder = this.scrollRef.getScrollResponder();
+                scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+                    findNodeHandle(this[refName]),
+                    130,
+                    true
+                );
+            }, 100);
+        }
     }
 
     render (): React.ReactNode {
@@ -146,7 +193,6 @@ class Search extends React.Component <Props, State> {
 
                 {/* 搜索输入框 */}
                 <View style={[HomeStyles.headerContaier, { backgroundColor: defaultTheme.defaultBackgroundColor }]}>
-
                     <View style={styles.inputBox}>        
                         <Image 
                             source={require('../../../assets/images/i_search_grey.png')} 
@@ -173,12 +219,12 @@ class Search extends React.Component <Props, State> {
                         <View style={styles.cancel}>
                             <Text style={styles.cancelText}>取消</Text>
                         </View>
-                    </TouchableOpacity>            
-                    
+                    </TouchableOpacity>
                 </View>
 
                 {/* 主部分 */}
                 <ScrollView
+                    ref={scrollRef => this.scrollRef = scrollRef}
                     style={styles.scrollView}
                     // 滑动时是否隐藏软键盘
                     keyboardDismissMode="on-drag"
@@ -261,6 +307,50 @@ class Search extends React.Component <Props, State> {
                                         }
                                     </View>
                                 </TouchableOpacity>
+                            );
+                        })
+                    }
+
+                    {
+                        [0, 1, 2, 3, 4].map((item: number) => {
+                            return (
+                                <ScrollView>
+                                    <View 
+                                        key={item}
+                                        style={[HomeStyles.headerContaier, { backgroundColor: defaultTheme.defaultBackgroundColor }]}>
+                                        <View style={styles.inputBox}>        
+                                            <Image 
+                                                source={require('../../../assets/images/i_search_grey.png')} 
+                                                style={HomeStyles.headerSearchImg}
+                                                resizeMode="contain"
+                                            />
+                                            <TextInput
+                                                ref={ref => {
+                                                    this[`textInput${item}`] = ref;
+                                                }}
+                                                style={styles.input}
+                                                value={value}
+                                                onChangeText={(text) => this.onChangeValue(text)}
+                                                multiline = {false}
+                                                editable={true}
+                                                maxLength={40}
+                                                autoCorrect={false}
+                                                autoFocus={true}
+                                                clearButtonMode="while-editing"
+                                                // 去掉安卓底边框
+                                                underlineColorAndroid="transparent"
+                                                onSubmitEditing={(event: any) => this.doInputSearchHandle(event.nativeEvent.text)}
+                                                onFocus={this.onFocusHandle.bind(this, `textInput${item}`)}
+                                            />
+                                        </View>
+
+                                        <TouchableOpacity activeOpacity={.3} onPress={() => this.onPressHandle()}>
+                                            <View style={styles.cancel}>
+                                                <Text style={styles.cancelText}>取消</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </ScrollView>
                             );
                         })
                     }
