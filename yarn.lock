@@ -4859,6 +4859,16 @@ react-native-htmlview@^0.13.0:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"
 
+react-native-image-pan-zoom@^2.1.8:
+  version "2.1.8"
+  resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.1.8.tgz#2f8d8459a6f56b897b53222649e1225d8fc6e5ee"
+
+react-native-image-zoom-viewer@^2.2.15:
+  version "2.2.15"
+  resolved "http://registry.npm.taobao.org/react-native-image-zoom-viewer/download/react-native-image-zoom-viewer-2.2.15.tgz#186734ea25473fd1c15202a157adf53fb8fa8fb6"
+  dependencies:
+    react-native-image-pan-zoom "^2.1.8"
+
 react-native-root-siblings@^3.0.0:
   version "3.1.0"
   resolved "http://registry.npm.taobao.org/react-native-root-siblings/download/react-native-root-siblings-3.1.0.tgz#194067d37d4d2c824d923148e53922ee6ac2e06f"

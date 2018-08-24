@@ -13,6 +13,7 @@ const defaultTheme = {
     normalFont: 17,
     smallFont: 12,
     borderColor: '#dddddd',
+    themeRed: '#d81e06',
 };
 
 const common = StyleSheet.create({
@@ -35,6 +36,20 @@ const common = StyleSheet.create({
         borderRightColor: defaultTheme.selectedFontColor,
         borderBottomColor: defaultTheme.selectedFontColor,
         borderLeftColor: defaultTheme.selectedFontColor,
+    },
+    
+    dashBtn: {
+        borderTopWidth: 1,
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+    },
+
+    redBtn: {
+        borderTopColor: defaultTheme.themeRed,
+        borderRightColor: defaultTheme.themeRed,
+        borderBottomColor: defaultTheme.themeRed,
+        borderLeftColor: defaultTheme.themeRed,
     }
 });
 
@@ -48,9 +63,9 @@ const getImageHeight = (imageUrl: string): number => {
     Image.getSize(
         imageUrl, 
         (width, height) => {
-            console.log('screenWidth: ', screenWidth);
-            console.log('width: ', width);
-            console.log('height: ', height);
+            // console.log('screenWidth: ', screenWidth);
+            // console.log('width: ', width);
+            // console.log('height: ', height);
             // imgHeight = Math.floor(screenWidth / width * height);
             imgHeight = Math.floor(screenWidth * height / width);
         },
@@ -58,8 +73,7 @@ const getImageHeight = (imageUrl: string): number => {
             console.log('error getimagesize ', error);
         }
     );
-
-    console.log('imgHeight: ', imgHeight);
+    // console.log('imgHeight: ', imgHeight);
 
     return imgHeight;
 };

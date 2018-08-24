@@ -14,6 +14,7 @@ import Swiper from 'react-native-swiper';
 import { NavigationScreenProp } from 'react-navigation';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import { isLT19 } from '../util/util';
+import { defaultTheme } from '../util/common';
 import HomeFlatList from '../component/HomeFlatList';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -175,7 +176,7 @@ export const styles = StyleSheet.create({
     },
     headerContaier: {
         flexDirection: 'row',
-        backgroundColor: '#d81e06',
+        backgroundColor: defaultTheme.themeRed,
         justifyContent: 'space-around',
         alignItems: 'center',
         height: 68,
