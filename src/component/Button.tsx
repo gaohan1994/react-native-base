@@ -72,16 +72,16 @@ class Button extends React.Component<Props, {}> {
     render() {
         const { onPress, text } = this.props;
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
                 activeOpacity={.3}
-                onPress={onPress ? onPress : () => {/* */} }
+                onPress={onPress ? onPress : () => {/* */}}
             >
-                <View 
+                <View
                     style={[
                         styles.commonButton,
                         this.setButtonSizeStyle(),
                         this.setButtonTypeStyle(),
-                        this.setButtonRadius(),   
+                        this.setButtonRadius(),
                     ]}
                 >
                     <Text 

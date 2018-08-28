@@ -1,7 +1,7 @@
 /**
  * created by Ghan 2018.8.10
  */
-import React, { Component } from 'react';
+import React from 'react';
 import {
     TextInput,
     Platform,

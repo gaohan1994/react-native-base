@@ -24,7 +24,6 @@ class CentermRequsetError extends CentermError {
     constructor (respose: any, method?: string) {
         const errorResponse = constructErrorResponse(respose);
         super(errorResponse);
-
         this.method = method;
     }
 }

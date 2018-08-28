@@ -14,6 +14,7 @@ const defaultTheme = {
     smallFont: 12,
     borderColor: '#dddddd',
     themeRed: '#d81e06',
+    inputHeight: 34,
 };
 
 const common = StyleSheet.create({
@@ -50,15 +51,51 @@ const common = StyleSheet.create({
         borderRightColor: defaultTheme.themeRed,
         borderBottomColor: defaultTheme.themeRed,
         borderLeftColor: defaultTheme.themeRed,
+    },
+
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+    input: {
+        height: 33,
+        borderRadius: 17,
+        backgroundColor: defaultTheme.defaultBackgroundColor,
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: 10,
+        paddingRight: 10,
+        textAlignVertical: 'center',
     }
 });
 
+/**
+ * @todo 传入颜色 返回 border 颜色
+ * @param color string
+ */
+const getBorderColor = (color: string): object => {
+    return {
+        borderTopColor: color,
+        borderRightColor: color,
+        borderBottomColor: color,
+        borderLeftColor: color,
+    };
+}
+
+/**
+ * 传入 image url 返回正确的高度 目前失败
+ * 
+ * @param imageUrl 
+ */
 const getImageHeight = (imageUrl: string): number => {
 
     /**
      * default height
      */
-    let imgHeight = 230;
+    let imgHeight: number = 230;
 
     Image.getSize(
         imageUrl, 
@@ -68,6 +105,7 @@ const getImageHeight = (imageUrl: string): number => {
             // console.log('height: ', height);
             // imgHeight = Math.floor(screenWidth / width * height);
             imgHeight = Math.floor(screenWidth * height / width);
+            console.log('getsize imgHeight : ', imgHeight);
         },
         (error) => {
             console.log('error getimagesize ', error);
@@ -78,8 +116,17 @@ const getImageHeight = (imageUrl: string): number => {
     return imgHeight;
 };
 
+const trimNewLines = (text: string): string => {
+    if (!text) {
+        return '';
+    } else {
+        return text.replace(/(\r\n|\n|\r)/gm, '');
+    }
+}
+
 export {
     common,
     defaultTheme,
     getImageHeight,
+    getBorderColor,
 };

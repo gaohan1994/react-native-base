@@ -85,10 +85,6 @@ class Search extends React.Component <Props, State> {
         };
     }
 
-    componentDidMount() {
-        //
-    }
-
     /**
      * 输入事件监听
      *
@@ -144,32 +140,6 @@ class Search extends React.Component <Props, State> {
 
         const { saveSearchHistoryItem } = this.props;
         saveSearchHistoryItem(historyItem);
-    }
-
-    /**
-     * @param refName 点击的 textinput ref
-     *
-     * @memberof Search
-     */
-    public onFocusHandle = (refName: any) => {
-        console.log('refName: ', refName);
-        // 如果是 ios 处理一下
-        if (Platform.OS === 'ios') {
-            if (this.timer) {
-                console.log('timer ex');
-                clearTimeout(this.timer);
-            } 
-
-            // this.timer = setTimeout(() => {
-            //     console.log('this[refName]: ', this[refName]);
-            //     const scrollResponder = this.scrollRef.getScrollResponder();
-            //     scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
-            //         findNodeHandle(this[refName]),
-            //         130,
-            //         true
-            //     );
-            // }, 100);
-        }
     }
 
     render (): React.ReactNode {
@@ -303,27 +273,6 @@ class Search extends React.Component <Props, State> {
                             );
                         })
                     }
-
-                    {/* {
-                        [0, 1, 2, 3, 4].map((item: number) => {
-                            return (
-                                <TextView
-                                    key={item}
-                                    value={value}
-                                    onChangeText={(text: string) => this.onChangeValue(text)}
-                                    onFocusHandle={this.onFocusHandle}
-                                    parentRef={childRef => this[refName] = childRef}
-                                />
-                            );
-                        })
-                    } */}
-                    
-                    <TextView
-                        value={value}
-                        onChangeText={(text: string) => this.onChangeValue(text)}
-                        onFocusHandle={this.onFocusHandle}
-                        parentRef={childRef => this.textInput = childRef}
-                    />
                 </ScrollView>
             </View>
         );
