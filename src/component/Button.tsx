@@ -59,18 +59,43 @@ const { width: screenWidth } = Dimensions.get('window');
  * 
  * @interface Props
  */
+
+export type ButtonType = 'ghost' | 'normal';
+
+export type ButtonSizeType = 'big' | 'normal' | 'small';
+
 interface Props {
     text    : string;
     onPress ?: () => void;
-    size    ?: 'big' | 'normal' | 'small';
-    type    ?: 'ghost' | 'normal';
+    size    ?: ButtonSizeType;
+    type    ?: ButtonType;
     color   ?: string;
     radius  ?: boolean;
 }
 
 class Button extends React.Component<Props, {}> {
+
+    /**
+     * @todo 根据 size 渲染 Button 大小
+     *
+     * @private
+     * @memberof Button
+     */
+    static setButtonSizeStyle = (size: ButtonSizeType = 'big') => {
+        switch (size) {
+            case 'big':
+                return styles.bigButton;
+            case 'normal':
+                return styles.normalButton;
+            case 'small':
+                return styles.smallButton;
+            default:
+                return styles.bigButton;
+        }
+    }
+
     render() {
-        const { onPress, text } = this.props;
+        const { onPress, text, size } = this.props;
         return (
             <TouchableOpacity
                 activeOpacity={.3}
@@ -79,7 +104,7 @@ class Button extends React.Component<Props, {}> {
                 <View
                     style={[
                         styles.commonButton,
-                        this.setButtonSizeStyle(),
+                        Button.setButtonSizeStyle(size),
                         this.setButtonTypeStyle(),
                         this.setButtonRadius(),
                     ]}
@@ -103,20 +128,20 @@ class Button extends React.Component<Props, {}> {
      * @private
      * @memberof Button
      */
-    private setButtonSizeStyle = (): ViewStyle | ViewStyle[] => {
-        const { size = 'big' } = this.props;
-
-        switch (size) {
-            case 'big':
-                return styles.bigButton;
-            case 'normal':
-                return styles.normalButton;
-            case 'small':
-                return styles.smallButton;
-            default:
-                return styles.bigButton;
-        }
-    }
+    
+    // private setButtonSizeStyle = (): ViewStyle | ViewStyle[] => {
+    //     const { size = 'big' } = this.props;
+    //     switch (size) {
+    //         case 'big':
+    //             return styles.bigButton;
+    //         case 'normal':
+    //             return styles.normalButton;
+    //         case 'small':
+    //             return styles.smallButton;
+    //         default:
+    //             return styles.bigButton;
+    //     }
+    // }
 
     /**
      * @todo 根据 type 渲染 Button 类型
@@ -185,7 +210,7 @@ class Button extends React.Component<Props, {}> {
     }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     text: {
         color: defaultTheme.themeRed,
     },
